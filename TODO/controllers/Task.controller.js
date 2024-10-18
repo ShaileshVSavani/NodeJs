@@ -20,7 +20,7 @@ const deleteTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
     let { id } = req.params
-    let data = await Task.findByIdAndUpdate(id, req.body)
+    let data = await Task.findByIdAndUpdate(id, req.body, {new:true})
     res.send(data)
 }
 

@@ -1,22 +1,23 @@
 
+
+const postData = async () => {
+    let req = await fetch("http://localhost:8090/tasks", {
+        method: 'POST',
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    let res = await req.json()
+    console.log(res);
+
+}
+
 const handleData = (e) => {
     e.preventDefault();
     let data = {
         task: document.getElementById('task').value,
       
     }
-    const postData = async () => {
-        let req = await fetch("http://localhost:8090", {
-            method: 'POST',
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(data)
-        })
-        let res = await req.json()
-        console.log(res);
-    
-    }
-    
-
+   
     postData(data)
 }
 document.getElementById("taskData").addEventListener("submit", handleData)
@@ -41,7 +42,7 @@ const mapper = (data) => {
 }
 
 const getTask = async () => {
-    let req = await fetch(`http://localhost:8090`)
+    let req = await fetch(`http://localhost:8090/tasks`)
     let data = await req.json()
 
     mapper(data)
