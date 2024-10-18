@@ -1,64 +1,4 @@
 
-
-// const postData = async (data) => {
-//     let req = await fetch("http://localhost:8090/tasks", {
-//         method: 'POST',
-//         headers: { "content-type": "application/json" },
-//         body: JSON.stringify(data)
-//     })
-//     let res = await req.json()
-//     console.log(res);
-
-// }
-
-// const handleData = (e) => {
-//     e.preventDefault();
-//     let data = {
-//         task: document.getElementById('task').value,
-      
-//     }
-   
-//     postData(data)
-//     document.getElementById('task').value = '';
-// }
-// document.getElementById("taskData").addEventListener("submit", handleData)
-
-
-// const mapper = (data) => {
-//     document.getElementById("taskList").innerHTML = ""
-
-
-//     data.map((ele) => {
-//         let h1 = document.createElement("h1");
-//         h1.innerHTML = ele.task
-//         let h2 = document.createElement("h2");
-//         h2.innerHTML = ele.status
-//         let div = document.createElement("div")
-//         div.append(h1, h2)
-
-
-//         document.getElementById("taskList").append(div)
-
-//     })
-// }
-
-// const getTask = async () => {
-//     let req = await fetch(`http://localhost:8090/tasks`)
-//     let data = await req.json()
-
-//     mapper(data)
-
-// }
-// getTask()
-
-
-
-
-//=====================
-
-
-
-
 const postData = async (data) => {
     let req = await fetch("http://localhost:8090/tasks", {
         method: 'POST',
@@ -67,7 +7,7 @@ const postData = async (data) => {
     });
     let res = await req.json();
     console.log(res);
-    getTask();  // Refresh task list after adding a new task
+    getTask();  
 };
 
 const handleData = (e) => {
@@ -76,26 +16,27 @@ const handleData = (e) => {
         task: document.getElementById('task').value,
     };
     postData(data);
+    document.getElementById('task').value = '';
 };
 
 document.getElementById("taskData").addEventListener("submit", handleData);
 
 const mapper = (data) => {
-    document.getElementById("taskList").innerHTML = "";  // Clear previous list
+    document.getElementById("taskList").innerHTML = "";  
 
     data.forEach((ele) => {
         let h1 = document.createElement("h1");
         h1.innerHTML = ele.task;
-        h1.style.textDecoration = ele.status ? "line-through" : "none";  // Cross out completed tasks
+        h1.style.textDecoration = ele.status ? "line-through" : "none";  
 
         let h2 = document.createElement("h2");
         h2.innerHTML = ele.status ? "Completed" : "Pending";
-        h2.style.color = ele.status ? "#4CAF50" : "#FF6347";  // Green for completed, red for pending
+        h2.style.color = ele.status ? "#4CAF50" : "#FF6347";  
 
         let div = document.createElement("div");
         div.append(h1, h2);
 
-        // Add a delete button
+     
         let deleteBtn = document.createElement("button");
         deleteBtn.innerHTML = "Delete";
         deleteBtn.style.padding = "5px 10px";
@@ -105,7 +46,7 @@ const mapper = (data) => {
         deleteBtn.style.borderRadius = "4px";
         deleteBtn.style.cursor = "pointer";
 
-        // Add a complete button
+    
         let completeBtn = document.createElement("button");
         completeBtn.innerHTML = ele.status ? "Undo" : "Complete";
         completeBtn.style.padding = "5px 10px";
@@ -119,15 +60,15 @@ const mapper = (data) => {
         div.append(deleteBtn, completeBtn);
         document.getElementById("taskList").append(div);
 
-        // Event listener for delete button
+      
         deleteBtn.addEventListener("click", () => deleteTask(ele._id));
 
-        // Event listener for complete button
+     
         completeBtn.addEventListener("click", () => toggleComplete(ele._id, ele.status));
     });
 };
 
-// Fetch all tasks
+
 const getTask = async () => {
     let req = await fetch("http://localhost:8090/tasks");
     let data = await req.json();
@@ -135,19 +76,19 @@ const getTask = async () => {
 };
 getTask();
 
-// Function to delete a task by ID
+
 const deleteTask = async (id) => {
     let req = await fetch(`http://localhost:8090/tasks/${id}`, {
         method: 'DELETE',
     });
     let res = await req.json();
     console.log(res);
-    getTask();  // Refresh task list after deletion
+    getTask(); 
 };
 
-// Function to toggle task completion status
+
 const toggleComplete = async (id, currentStatus) => {
-    let updatedData = { status: !currentStatus };  // Toggle the current status
+    let updatedData = { status: !currentStatus };  
     let req = await fetch(`http://localhost:8090/tasks/${id}`, {
         method: 'PATCH',
         headers: { "Content-Type": "application/json" },
@@ -155,5 +96,5 @@ const toggleComplete = async (id, currentStatus) => {
     });
     let res = await req.json();
     console.log(res);
-    getTask();  // Refresh task list after updating
+    getTask();  
 };

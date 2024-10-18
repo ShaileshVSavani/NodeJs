@@ -1,4 +1,8 @@
 const Task = require("../models/Todo")
+const getTask = async (req, res) => {
+    let data = await Task.find()
+    res.send(data)
+}
 
 const createTask = async (req, res) => {
     console.log(req.body);
@@ -7,10 +11,6 @@ const createTask = async (req, res) => {
     res.send(data)
 }
 
-const getTask = async (req, res) => {
-    let data = await Task.find()
-    res.send(data)
-}
 
 const deleteTask = async (req, res) => {
     let { id } = req.params
