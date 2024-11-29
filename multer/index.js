@@ -1,28 +1,31 @@
+
 const express = require('express');
-const ProductRoute = require('./routes/product.router');
+const path = require('path');
+const upload = require('./utils/uploadImage');
+
+
 const app = express();
-require('dotenv').config()
-const path = require("path");
-const DB = require('./config/db,js');
 
-const PORT = process.env.PORT || 8080 
+// Serve static files from the 'view' directory
+app.use(express.static(path.join(__dirname, 'view')));
 
-// Middleware for parsing JSON request bodies
-app.use(express.json());
+// Serve the index.html file
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'index.html'));
+});
 
-// Middleware for parsing URL-encoded request bodies (for form data)
-app.use(express.urlencoded({ extended: true }));
+// Handle file upload
+app.post('/upload', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+    res.send(`File uploaded: /uploads/${req.file.filename}`);
+});
 
-// Middleware for serving static files from the 'public' directory
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Route for uploading a file
-app.use('/products', ProductRoute)
-
-app.listen(PORT, () => { 
-    console.log(`Server is running on port ${PORT}`);
-    DB()
-})
-
-
-
+// Start the server
+app.listen(8090, () => {
+    console.log('Server is running on http://localhost:8090');
+});
