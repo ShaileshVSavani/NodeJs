@@ -9,6 +9,9 @@ const app = express();
 // Serve static files from the 'view' directory
 app.use(express.static(path.join(__dirname, 'view')));
 
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Serve the index.html file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'view', 'index.html'));
@@ -22,8 +25,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     res.send(`File uploaded: /uploads/${req.file.filename}`);
 });
 
-// Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Start the server
 app.listen(8090, () => {

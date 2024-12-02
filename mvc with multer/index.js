@@ -13,6 +13,10 @@ app.use(express.json());
 // Middleware for parsing URL-encoded request bodies (for form data)
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "view/index.html"));
+  });
+
 // Middleware for serving static files from the 'public' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
