@@ -1,19 +1,5 @@
 const User = require("../models/user.model");
 
-// const createUser = async (req, res) => {
-//   try {
-//     const { email } = req.body;
-//     let isExists = await User.findOne({ email: email });
-//     if (isExists) {
-//       return res.send("users already Exists");
-//     } else {
-//       let user = await User.create(req.body);
-//       return res.status(201).json(user);
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error });
-//   }
-// };
 
 const createUser = async (req, res) => {
   try {
@@ -32,7 +18,8 @@ const createUser = async (req, res) => {
       password: password,
     });
 
-    await user.save(); // Save user to DB
+    // await user.save(); // Save user to DB
+    await User.create(user);
 
     return res.status(201).json(user); // Return the created user as a response
   } catch (error) {
