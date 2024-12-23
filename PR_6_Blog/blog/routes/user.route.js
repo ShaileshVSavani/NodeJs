@@ -1,12 +1,12 @@
 const {Router} = require("express")
-const { signupui, usercreate, login, loginui } = require("../controllers/user.controller")
-const { scheck } = require("../middlewares/user.middlewares")
-const router = Router()
+const { signupPage, usercreate, login, loginPage } = require("../controllers/user.controller")
+const { checkUserFeild } = require("../middlewares/user.middlewares")
+const userRouter = Router()
 
 
-router.get("/signup" , signupui)
-router.post("/signup", scheck ,usercreate)
-router.get("/login" , loginui)
-router.post("/login" , login)
+userRouter.get("/signup" , signupPage)
+userRouter.post("/signup", checkUserFeild ,usercreate)
+userRouter.get("/login" , loginPage)
+userRouter.post("/login" , login)
 
-module.exports = router
+module.exports = userRouter

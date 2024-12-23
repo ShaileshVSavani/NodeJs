@@ -1,6 +1,6 @@
 const user = require("../models/user.schema")
 
-const signupui = (req, res) => {
+const signupPage = (req, res) => {
     res.render("sign-up")
 }
 const usercreate = async (req, res) => {
@@ -18,7 +18,7 @@ const usercreate = async (req, res) => {
     }
 }
 
-const loginui = (req, res) => {
+const loginPage = (req, res) => {
     res.render("login")
 }
 const login = async (req, res) => {
@@ -39,4 +39,4 @@ const login = async (req, res) => {
 }
 
 
-module.exports = { signupui, usercreate, login, loginui }
+module.exports = { signupPage, usercreate, login, loginPage }

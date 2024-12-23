@@ -1,4 +1,4 @@
-const scheck = (req , res , next) =>{
+const checkUserFeild = (req , res , next) =>{
     let {username , password , email , role} = req.body
 
     if(username || password || email || role){
@@ -9,4 +9,4 @@ const scheck = (req , res , next) =>{
     }
 }
 
-module.exports = {scheck}
+module.exports = {checkUserFeild}

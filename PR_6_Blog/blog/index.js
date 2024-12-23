@@ -1,8 +1,8 @@
 const express = require("express")
 
-const router = require("./routes/user.route")
+const userRouter = require("./routes/user.route")
 const cookie = require("cookie-parser")
-const router2 = require("./routes/blog.route")
+const blogRouter = require("./routes/blog.route")
 const connectDb = require("./config/db")
 
 
@@ -16,8 +16,8 @@ app.use(cookie())
 app.get("/", (req, res) => {
     res.send("Welcome to the Blog API");
 });
-app.use("/user",router)
-app.use("/blog" , router2)
+app.use("/user",userRouter)
+app.use("/blog" , blogRouter)
 
 
 app.listen(8090, ()=>{

@@ -6,7 +6,7 @@ const Fuse = require("fuse.js")
 const blogPage = (req, res) => {
     res.render("blog")
 }
-const blogcreateui = (req, res) => {
+const blogCreatePage = (req, res) => {
     res.render("blogform")
 }
 const blogcreate = async (req, res) => {
@@ -16,7 +16,8 @@ const blogcreate = async (req, res) => {
     let { title, content, image, category } = req.body
 
     let data = await blog.create({ title, content, image, category, authorname: users.username })
-    res.cookie("blogId", data.id).send(`blog created by ${users.username}`)
+    res.cookie("blogId", data.id)
+        res.send(`blog created by ${users.username}`)
 }
 
 const blogs = async (req, res) => {
@@ -77,8 +78,9 @@ const likeupdate = async(req ,  res) =>{
     blogs.likedBy.push({username : users.username})
     await blogs.save()
 
-    res.status(200).cookie("id" , users.id)
-    res.status(200).cookie("role" , users.role).send(blogs)
+    res.cookie("id" , users.id)
+    res.cookie("role", users.role)
+        res.send(blogs)
 
 }
 
@@ -95,4 +97,4 @@ const addcomment = async(req , res) =>{
 
     res.send(blogs)
 }
-module.exports = { blogcreateui, blogcreate, blogs, blogPage, blogdelete, blogupadate, blogsearch , singleblog , likeupdate , addcomment}
+module.exports = { blogCreatePage, blogcreate, blogs, blogPage, blogdelete, blogupadate, blogsearch , singleblog , likeupdate , addcomment}
