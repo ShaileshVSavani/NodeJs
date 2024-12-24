@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites</title>
+</head>
+<body>
+  <h1>Your Favorites</h1>
+  <ul>
+    <% favorites.forEach(favorite => { %>
+      <li><%= favorite %></li>
+    <% }) %>
+  </ul>
+  <a href="/user/profile">Back to Profile</a>
+</body>
+</html>
