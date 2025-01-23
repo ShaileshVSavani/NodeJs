@@ -1,13 +1,12 @@
-
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const DbConnection = require('./config/db')
+const DbConnection = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const examRoutes = require('./routes/examRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const resultRoutes = require('./routes/resultRoutes');
-;
+const adminRoutes = require('./routes/adminRoutes'); 
 
 const app = express();
 
@@ -18,10 +17,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/exams', examRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/results', resultRoutes);
+app.use('/api/admin', adminRoutes); 
 
 const PORT = process.env.PORT || 8090;
 
 app.listen(PORT, () => {
-    DbConnection()
-    console.log(`Server running on port ${PORT}`)
+    DbConnection();
+    console.log(`Server running on port ${PORT}`);
 });
