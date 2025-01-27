@@ -12,10 +12,10 @@ const checkRole = require("../middleware/role.middleware");
 const router = Router();
 
 // Public routes
-router.post("/signup", createUser);
 router.post("/login", login);
 
 // Admin routes
+router.post("/signup", verifyToken, checkRole("admin"), createUser); 
 router.get("/", verifyToken, checkRole("admin"), getAllUsers);
 
 // Teacher routes
