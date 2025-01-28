@@ -12,10 +12,11 @@ const checkRole = require("../middleware/role.middleware");
 const router = Router();
 
 // Public routes
+router.post("/signup", createUser); // First user (admin) can sign up without auth
 router.post("/login", login);
 
-// Admin routes
-router.post("/signup", verifyToken, checkRole("admin"), createUser); 
+// Protected routes for Admin
+router.post("/create-user", verifyToken, checkRole("admin"), createUser)
 router.get("/", verifyToken, checkRole("admin"), getAllUsers);
 
 // Teacher routes
