@@ -98,21 +98,84 @@ exports.login = async (req, res) => {
 
 
 // Get all students (teacher)
+// exports.getAllStudents = async (req, res) => {
+//   try {
+//     const students = await User.find({ role: "student" });
+//     res.status(200).send({ msg: "Students retrieved successfully", students });
+//   } catch (error) {
+//     res.status(500).send({ msg: "Error retrieving students", error: error.message });
+//   }
+// };
+
 exports.getAllStudents = async (req, res) => {
-  try {
-    const students = await User.find({ role: "student" });
-    res.status(200).send({ msg: "Students retrieved successfully", students });
-  } catch (error) {
-    res.status(500).send({ msg: "Error retrieving students", error: error.message });
-  }
-};
+    try {
+      const students = await User.find({ role: "student" }).populate("assignedTeacher", "username email");
+      res.status(200).send({ msg: "Students retrieved successfully", students });
+    } catch (error) {
+      res.status(500).send({ msg: "Error retrieving students", error: error.message });
+    }
+  };
+  
+
 
 // Get all teachers (student)
+// exports.getAllTeachers = async (req, res) => {
+//   try {
+//     const teachers = await User.find({ role: "teacher" });
+//     res.status(200).send({ msg: "Teachers retrieved successfully", teachers });
+//   } catch (error) {
+//     res.status(500).send({ msg: "Error retrieving teachers", error: error.message });
+//   }
+// };
+
 exports.getAllTeachers = async (req, res) => {
-  try {
-    const teachers = await User.find({ role: "teacher" });
-    res.status(200).send({ msg: "Teachers retrieved successfully", teachers });
-  } catch (error) {
-    res.status(500).send({ msg: "Error retrieving teachers", error: error.message });
-  }
-};
+    try {
+      const teachers = await User.find({ role: "teacher" }).populate("students", "username email");
+      res.status(200).send({ msg: "Teachers retrieved successfully", teachers });
+    } catch (error) {
+      res.status(500).send({ msg: "Error retrieving teachers", error: error.message });
+    }
+  };
+  
+
+exports.assignTeacherToStudent = async (req, res) => {
+    const { teacherId, studentId } = req.body;
+  
+    try {
+      // Verify that both teacher and student exist
+      const teacher = await User.findOne({ _id: teacherId, role: "teacher" });
+      const student = await User.findOne({ _id: studentId, role: "student" });
+  
+      if (!teacher) {
+        return res.status(404).send({ msg: "Teacher not found or invalid role" });
+      }
+      if (!student) {
+        return res.status(404).send({ msg: "Student not found or invalid role" });
+      }
+  
+      // Assign the teacher to the student
+      student.assignedTeacher = teacher._id;
+      await student.save();
+  
+      // Add the student to the teacher's list of students
+      teacher.students.push(student._id);
+      await teacher.save();
+  
+      res.status(200).send({
+        msg: "Teacher assigned to student successfully",
+        teacher: {
+          id: teacher._id,
+          username: teacher.username,
+          email: teacher.email,
+        },
+        student: {
+          id: student._id,
+          username: student.username,
+          email: student.email,
+        },
+      });
+    } catch (error) {
+      res.status(500).send({ msg: "Error assigning teacher to student", error: error.message });
+    }
+  };
+  
