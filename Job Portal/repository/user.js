@@ -1,4 +1,4 @@
-const User = require("../model/user.model")
+const User = require("../model/user")
 
 exports.register = async (data) => {
     let user = await User.create(data)
@@ -16,8 +16,12 @@ exports.updateById = async (id, data) => {
 }
 
 exports.deleteById = async (id) => {
-    let user = await User.findByIdAndDelete(id)
-    return user
+    let user = await User.findByIdAndUpdate(
+        id,
+        { isActive: false },
+        { new: true }
+      );
+      return user;
 }
 
 exports.getAll = async () => {
