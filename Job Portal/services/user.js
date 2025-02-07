@@ -1,24 +1,50 @@
 const userRepository = require('../repository/user')
 const { hashPassword, generateToken } = require('../utils/helper')
+const sendMail = require("../utils/mail");
+const userDetailService = require("./details");
+// exports.createUser = async (data) => {
+//     const user = await userRepository.getByEmail(data.email)
+//     if (user) {
+//         throw new Error('Email already exists')
+//     }
+//     let hash = await hashPassword(data.password)
+//     data.password = hash
+//     user = await userRepository.register(data)
 
-exports.createUser = async (data) => { 
-    const user = await userRepository.getByEmail(data.email)
-    if (user) {
-        throw new Error('Email already exists')
-    }
-    let hash = await hashPassword(data.password)
-    data.password = hash
-    user = await userRepository.register(data)
+//     let token = await generateToken({
+//         id: user.id,
+//         email: user.email,
+//         role: user.role,
+//         name: user.name
+//     })
+//     // return { user, token }
+//     return token
+// }
 
-    let token = await generateToken({
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        name: user.name
-    })
-    // return { user, token }
-    return token
-}
+
+let map = new Map();
+exports.createUser = async (data) => {
+  let user = await userRepository.getByEmail(data.email);
+  if (user) {
+    throw new Error("User already exists");
+  }
+  let hash = await hashPassword(data.password);
+  data.password = hash;
+  user = await userRepository.register(data);
+
+  let token = await genereateToken({
+    email: user.email,
+    id: user.id,
+    role: user.role,
+    name: user.name,
+  });
+  let otp = Math.round(Math.random() * 10000);
+  map.set(token, otp);
+  let url = `<div> <a href=http://localhost:8090/api/v1/users/verify/${token}/${otp} > click to verify </a> </div>`;
+  await sendMail(user.email, "verify", url);
+  return token;
+};
+
 
 exports.login = async (data) => { 
     let user = await userRepository.getByEmail(data.email)
@@ -63,6 +89,7 @@ exports.getAllUsers = async () => {
 
 exports.getUserById = async (id) => { 
     let user = await userRepository.getById(id)
+    let details = await userDetailService.getUserDetails(id);
     if (!user) {
         throw new Error('User not found')
     }
