@@ -4,9 +4,7 @@ const Ability = (roles = []) => {
       if (roles.includes(role)) {
         return next();
       } else {
-        return res
-          .status(403)
-          .send({ message: "You do not have permission to access this" });
+        return res.status(403).send({ message: "You do not have permission to access this" });
       }
     };
   };

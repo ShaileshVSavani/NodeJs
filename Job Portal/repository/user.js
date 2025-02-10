@@ -16,11 +16,7 @@ exports.updateById = async (id, data) => {
 }
 
 exports.deleteById = async (id) => {
-    let user = await User.findByIdAndUpdate(
-        id,
-        { isActive: false },
-        { new: true }
-      );
+    let user = await User.findByIdAndUpdate(id, { isActive: false }, { new: true });
       return user;
 }
 

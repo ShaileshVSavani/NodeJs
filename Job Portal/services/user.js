@@ -100,3 +100,20 @@ exports.getUserByQuery = async (query) => {
     let users = await userRepository.getByQuery(query)
     return users
 }
+
+
+
+exports.verifyEmail = async (token, otp) => {
+    let userOtp = map.get(token);
+    if (userOtp == otp) {
+      try {
+        let user = await decodeToken(token);
+        user = await userRepository.updateUser(user.id, { isVerified: true });
+        return user;
+      } catch (error) {
+        throw new Error("Could not decode token");
+      }
+    } else {
+      throw new Error("Invalid otp");
+    }
+  };

@@ -20,4 +20,6 @@ router.put("/:id", Ability(["ADMIN", "HR"]), companyController.updateCompany);
 router.delete("/:id",Ability(["ADMIN", "HR"]), companyController.deleteCompany
 );
 
+router.get("/admin/unverified", Ability(["ADMIN"]), companyController.getUnverified
+  );
 module.exports = router;

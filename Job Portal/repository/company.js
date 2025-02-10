@@ -4,8 +4,8 @@ exports.createCompany = async (payload) => {
   let company = await Company.create(payload);
   return company;
 };
-exports.getAllCompany = async () => {
-  let company = await Company.find();
+exports.getAllCompany = async (query) => {
+  let company = await Company.find(query);
   return company;
 };
 

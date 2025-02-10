@@ -4,19 +4,19 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      // required: true,
       minlength: 2,
       maxlength: 50,
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
       unique: true,
       match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
     },
     password: {
       type: String,
-      required: true,
+      // required: true,
       minlength: 4,
     },
     profile_picture: String,
