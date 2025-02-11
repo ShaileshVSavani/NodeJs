@@ -1,7 +1,7 @@
 const userRepository = require('../repository/user')
 const { hashPassword, generateToken } = require('../utils/helper')
 const sendMail = require("../utils/mail");
-const userDetailService = require("./details");
+const userDetailService = require("./userDetails");
 // exports.createUser = async (data) => {
 //     const user = await userRepository.getByEmail(data.email)
 //     if (user) {

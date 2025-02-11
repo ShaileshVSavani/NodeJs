@@ -42,9 +42,7 @@ exports.updateCompany = async (req, res) => {
     const payload = req.body;
     const updatedCompany = await companyService.updateCompany(id, payload);
     if (!updatedCompany) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Company not found" });
+      return res.status(404).json({ success: false, message: "Company not found" });
     }
     res.status(200).json({ success: true, data: updatedCompany });
   } catch (error) {

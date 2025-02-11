@@ -1,13 +1,5 @@
 const userDetailRepository = require("../repository/details");
 
-exports.getUserDetails = async (userId) => {
-  try {
-    let userDetail = await userDetailRepository.getByUserId(userId);
-    return userDetail;
-  } catch (error) {
-    throw new Error("Couldn't get user details for user " + userId);
-  }
-};
 
 exports.createUserDetails = async (payload) => {
   try {
@@ -17,6 +9,14 @@ exports.createUserDetails = async (payload) => {
     return userdata;
   } catch (error) {
     throw new Error("Couldn't create user details for user " + req.user.id);
+  }
+};
+exports.getUserDetails = async (userId) => {
+  try {
+    let userDetail = await userDetailRepository.getByUserId(userId);
+    return userDetail;
+  } catch (error) {
+    throw new Error("Couldn't get user details for user " + userId);
   }
 };
 

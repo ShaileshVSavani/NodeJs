@@ -13,6 +13,16 @@ const generateToken = async (data) => {
     }
 }
 
+// Decode token
+const decodeToken = async (token) => {
+    try {
+      let decode = await jwt.verify(token, process.env.JWT_SECRET);
+      return decode;
+    } catch (error) {
+      throw new Error(" could not decode token: " + error);
+    }
+  };
+
 // hash password                   
 const hashPassword = async (password) => {
     try {
@@ -35,14 +45,5 @@ const comparePassword = async (hashedPassword, password) => {
         throw new Error('Error comparing passwords: ' + error.message);
     }
 }
-
-const decodeToken = async (token) => {
-    try {
-      let decode = await jwt.verify(token, process.env.private_key);
-      return decode;
-    } catch (error) {
-      throw new Error(" could not decode token: " + error);
-    }
-  };
 
 module.exports = {generateToken, hashPassword, comparePassword, decodeToken}

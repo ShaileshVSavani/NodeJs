@@ -60,12 +60,8 @@ const userProfileSchema = new mongoose.Schema(
     skills: [{ type: String, trim: true }],
     workExperiences: [workExperienceSchema],
     education: [educationSchema],
-    resumeUrl: { type: String, trim: true },
-    experienceLevel: {
-      type: String,
-      enum: ["experienced", "fresher"],
-      required: true,
-    },
+    resumeUrl: { type: String},
+    experienceLevel: {type: String, enum: ["experienced", "fresher"], required: true},
   },
   { timestamps: true }
 );
