@@ -1,4 +1,4 @@
-const userDetailService = require("../service/details");
+const userDetailService = require("../services/userDetails");
 exports.createUser = async (req, res) => {
   try {
     let userDetail = await userDetailService.createUserDetails(req.body);

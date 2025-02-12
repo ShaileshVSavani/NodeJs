@@ -1,4 +1,4 @@
-const userDetailRepository = require("../repository/details");
+const userDetailRepository = require("../repository/userDetails");
 
 
 exports.createUserDetails = async (payload) => {

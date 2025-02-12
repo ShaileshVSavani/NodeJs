@@ -5,7 +5,8 @@ require("dotenv").config();
 // Function to generate JWT token
 const generateToken = async (data) => { 
     try {
-        const token = jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(data, process.env.JWT_SECRET);
+        // console.log(token);
         return token;
     } catch (error) {
         console.error('Error generating JWT token:', error);

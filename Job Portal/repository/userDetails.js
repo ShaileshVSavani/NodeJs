@@ -1,4 +1,4 @@
-const UserDetails = require("../model/userDetail");
+const UserDetails = require("../model/userDetails");
 
 
 exports.createDetail = async (payload) => {

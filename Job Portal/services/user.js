@@ -32,7 +32,7 @@ exports.createUser = async (data) => {
   data.password = hash;
   user = await userRepository.register(data);
 
-  let token = await genereateToken({
+  let token = await generateToken({
     email: user.email,
     id: user.id,
     role: user.role,
@@ -40,9 +40,14 @@ exports.createUser = async (data) => {
   });
   let otp = Math.round(Math.random() * 10000);
   map.set(token, otp);
-  let url = `<div> <a href=http://localhost:8090/api/v1/users/verify/${token}/${otp} > click to verify </a> </div>`;
+  let url = `<div> <a href=http://localhost:8090/api/v1/users/verify/${token}/${otp} > Click To Verify </a> </div>`;
   await sendMail(user.email, "verify", url);
+  console.log("Token:", token);
+  console.log("User:", user);
+  console.log("OTP'`:", otp);
   return token;
+   // return { user, token }
+  
 };
 
 
