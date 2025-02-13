@@ -1,21 +1,66 @@
 const jobRepository = require("../repository/job");
 const { getCompanyById } = require("../repository/company");
 
+// exports.create = async (data) => {
+//   try {
+//     // Check if the company exists and is verified
+//     const company = await getCompanyById(data.companyId);
+//     if (company && company.isVerified) {
+//       // Use the repository to create the job record
+//       const job = await jobRepository.createJob(data);
+//       return job;
+//     } else {
+//       throw new Error("Unverified company");
+//     }
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// };
+
+//=================================================
+// exports.create = async (data) => {
+//   try {
+//     // Check if the company exists and is verified
+//     const company = await getCompanyById(data.companyId);
+//     if (company && company.isVerified) {
+//       // Use the repository to create the job record
+//       const job = await jobRepository.createJob(data);
+//       return job;
+//     } else {
+//       throw new Error("Unverified company");
+//     }
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// };
+
+
+//=========================================
+
 exports.create = async (data) => {
   try {
-    // Check if the company exists and is verified
+    // Retrieve the company by ID
     const company = await getCompanyById(data.companyId);
-    if (company && company.isVerified) {
-      // Use the repository to create the job record
-      const job = await jobRepository.createJob(data);
-      return job;
-    } else {
+    
+    // Check if the company exists
+    if (!company) {
+      throw new Error("Company not found");
+    }
+    
+    // Check if the company is verified
+    if (!company.isVerified) {
       throw new Error("Unverified company");
     }
+    
+    // If verified, create the job record
+    const job = await jobRepository.createJob(data);
+    return job;
   } catch (error) {
-    throw new Error(error);
+    // Forward the error so that the controller can handle it
+    throw new Error(error.message);
   }
 };
+
 
 exports.getAll = async () => {
   try {

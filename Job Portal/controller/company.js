@@ -76,4 +76,26 @@ exports.getUnverified= async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error });
   }
+}
+  
+
+
+exports.verifyCompany = async (req, res) => {
+  try {
+    // Get the company ID from the request parameters
+    const { id } = req.params;
+
+    // Call the service to verify the company
+    const updatedCompany = await companyService.verifyCompany(id);
+
+    // Send a successful response
+    res.status(200).json({
+      success: true,
+      data: updatedCompany,
+      message: "Company verified successfully",
+    });
+  } catch (error) {
+    // Send an error response
+    res.status(500).json({ success: false, message: error.message });
   }
+};

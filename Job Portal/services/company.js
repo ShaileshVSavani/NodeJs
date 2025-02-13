@@ -28,3 +28,14 @@ exports.getAllUnverified = async () => {
   let company = await companyRepository.getAllCompany({ isVerified: false });
   return company;
 };
+
+
+exports.verifyCompany = async (companyId) => {
+  try {
+    const verifiedCompany = await companyRepository.verifyCompany(companyId);
+    return verifiedCompany;
+  } catch (error) {
+    // You might log the error here if needed
+    throw new Error(error.message);
+  }
+};

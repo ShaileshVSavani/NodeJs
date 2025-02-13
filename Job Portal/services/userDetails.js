@@ -1,16 +1,28 @@
 const userDetailRepository = require("../repository/userDetails");
 
 
-exports.createUserDetails = async (payload) => {
+// exports.createUserDetails = async (payload) => {
+//   try {
+//     let userId = req.user.id;
+//     payload.user = userId;
+//     let userdata = await userDetailRepository.createDetail(payload);
+//     return userdata;
+//   } catch (error) {
+//     throw new Error("Couldn't create user details for user " + req.user.id);
+//   }
+// };
+
+exports.createUserDetails = async (payload, userId) => {
   try {
-    let userId = req.user.id;
     payload.user = userId;
     let userdata = await userDetailRepository.createDetail(payload);
     return userdata;
   } catch (error) {
-    throw new Error("Couldn't create user details for user " + req.user.id);
+    throw new Error("Couldn't create user details for user " + userId + ". Error: " + error.message);
   }
 };
+
+
 exports.getUserDetails = async (userId) => {
   try {
     let userDetail = await userDetailRepository.getByUserId(userId);

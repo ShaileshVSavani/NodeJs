@@ -1,8 +1,12 @@
 const express = require("express");
 const companyController = require("../controller/company");
 const Ability = require("../middleware/Ability");
+const authMiddleware = require("../middleware/decode");
 
 const router = express.Router();
+
+// Apply authentication middleware to all routes in this router
+router.use(authMiddleware);
 
 // Route to create a new company
 router.post("/create", Ability(["HR"]), companyController.createCompany);
@@ -14,12 +18,14 @@ router.get("/", Ability(["ADMIN"]), companyController.getAllCompany);
 router.get("/:id", companyController.getCompanyById);
 
 // Route to update a company
-router.put("/:id", Ability(["ADMIN", "HR"]), companyController.updateCompany);
+router.patch("/:id", Ability(["ADMIN", "HR"]), companyController.updateCompany);
 
 // Route to delete a company
-router.delete("/:id",Ability(["ADMIN", "HR"]), companyController.deleteCompany
-);
+router.delete("/:id",Ability(["ADMIN", "HR"]), companyController.deleteCompany);
 
-router.get("/admin/unverified", Ability(["ADMIN"]), companyController.getUnverified
-  );
+router.get("/admin/unverified", Ability(["ADMIN"]), companyController.getUnverified);
+
+// Route to verify a company (accessible only by ADMIN or HR)
+router.patch("/verify/:id", Ability(["ADMIN", "HR"]), companyController.verifyCompany);
+
 module.exports = router;
