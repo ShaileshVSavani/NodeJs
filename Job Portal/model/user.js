@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
       default: "CANDIDATE",
     },
     isActive: { type: Boolean, default: true },
-    isVarified: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: false },
   },
   {
     timestamps: true,
